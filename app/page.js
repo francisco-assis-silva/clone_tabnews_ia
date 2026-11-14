@@ -1,11 +1,35 @@
-const nomes = ["Francisco", "Vancleide", "Pablo", "Camille", "Meg"];
+import Confetti from "./confetti";
 
-export default function Page() {
+async function getTotalConteudos() {
+  try {
+    const res = await fetch(
+      "https://www.tabnews.com.br/api/v1/contents?per_page=1&strategy=new",
+      { cache: "no-store" },
+    );
+    return Number(res.headers.get("x-pagination-total-rows")) || null;
+  } catch {
+    return null;
+  }
+}
+
+export default async function Page() {
+  const total = await getTotalConteudos();
+
   return (
-    <ul>
-      {nomes.map((nome) => (
-        <li key={nome}>{nome}</li>
-      ))}
-    </ul>
+    <main>
+      <Confetti />
+      <h1>Em Construção</h1>
+      <p>
+        Estamos neste exato momento reconstruindo a TabNews, um lugar na
+        internet para quem trabalha com tecnologia e precisa consumir conteúdos
+        com valor concreto
+      </p>
+      {total && (
+        <p>
+          <strong>{total.toLocaleString("pt-BR")}</strong> conteúdos publicados
+        </p>
+      )}
+      <a href="https://www.tabnews.com.br">Visite o site oficial</a>
+    </main>
   );
 }
