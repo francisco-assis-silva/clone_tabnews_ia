@@ -1,10 +1,9 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import ReactConfetti from "react-confetti";
+import dynamic from "next/dynamic";
+
+const ReactConfetti = dynamic(() => import("react-confetti"), { ssr: false });
 
 export default function Confetti() {
-  const [montado, setMontado] = useState(false);
-  useEffect(() => setMontado(true), []);
-  return montado ? <ReactConfetti recycle={false} /> : null;
+  return <ReactConfetti recycle={false} />;
 }
